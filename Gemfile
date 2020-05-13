@@ -64,3 +64,5 @@ gem "gretel"
 gem 'enum_help' 
 gem 'select2-rails'
 gem 'ransack'
+
+gem 'bootstrap', '~> 4.1.1'
