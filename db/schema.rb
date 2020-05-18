@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_140929) do
+ActiveRecord::Schema.define(version: 2020_05_18_132833) do
 
   create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
@@ -22,6 +22,18 @@ ActiveRecord::Schema.define(version: 2020_05_16_140929) do
     t.integer "user"
     t.integer "student"
     t.integer "principal", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "grade", null: false
+    t.boolean "english"
+    t.boolean "math"
+    t.boolean "japanese"
+    t.boolean "science"
+    t.boolean "social_studies"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
