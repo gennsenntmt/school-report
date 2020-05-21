@@ -66,3 +66,6 @@ gem 'select2-rails'
 gem 'ransack'
 
 gem 'bootstrap', '~> 4.1.1'
+
+gem 'haml-rails'
+gem 'erb2haml'
