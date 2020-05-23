@@ -1,0 +1,42 @@
+.report-registration-container 
+  .report-title 
+    生徒指導報告書
+  .report-teacher
+    作成:#{@report.user.name}先生
+  = form_with model: @report, local: true do |r|
+    .form-box
+      .choose-box1
+        .choose-box1__date
+          .choose-box1__date__day 作成日 
+          = r.date_select :day, use_month_numbers: true,end_year: Time.now.year
+        .choose-box1__subject 
+          教科を選ぶ
+          = r.select :subject, Report.subjects.keys.map {|k| [I18n.t("enums.report.subject.#{k}"), k]}
+        .choose-box1__student 
+          生徒を選ぶ
+          = r.collection_select :student_id, @student_all, :id, :name, :prompt => "生徒を選択"
+        .choose-box1__principal 
+          塾長確認(塾長専用)
+          - if current_user.admin?
+            = r.select :principal, Report.principals.keys.map {|k| [I18n.t("enums.report.principal.#{k}"), k]}, class:"choose-box1__principal__box"
+      .choose-box2
+        .choose-box2__container
+          .choose-box2__container__title
+            .choose-box2__container__title__contents 主な内容
+            = r.text_field :title, class: "choose-box2__title__input", placeholder: "例)現在進行形",class: "choose-box2__container__title__input"
+          .choose-box2__container__description
+            .choose-box2__container__description__contents 学習内容
+            = r.text_area :description, class: "choose-box2__container__description__input", placeholder: "例)学習した内容を記載してください 最大420字", size: "70x6"
+            .choose-box2__container__description__contents__count 
+              入力文字数:
+              %span.showCnt #{@report.description.length}
+          .choose-box2__container__homework
+            .choose-box2__container__homework__contents 宿題
+            = r.text_area :homework, class: "choose-box2__container__homework__input", placeholder: "例)◯◯問題集 Pxx~Pxx", size: "30x2"
+          .choose-box2__container__other
+            .choose-box2__container__other__contents 先生から一言
+            = r.text_field :other, class: "choose-box2__container__other__input", placeholder: "例)よく理解できていました", size: 30
+            .choose-box2__container__other__btns
+              -if user_signed_in? && current_user.id == @report.user.id || user_signed_in? && current_user.admin?
+                = r.submit "編集", class:"report-registration-btn"
+                = link_to '削除', "/users/#{current_user.id}/reports/#{@report.id}", method: :delete, data: {confirm: "報告書を削除します。よろしいですか？"},class:"report-registration-btn-delete"

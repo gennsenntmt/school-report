@@ -1,0 +1,94 @@
+.main
+  .main__top
+    .main__top__text
+      報告書検索(半角スペース 複数条件検索可)
+    %input#input-text{name: "title", placeholder:"例)英語 田中", type: "text", value: ""}
+  .main__tabs
+    .link-tab
+      =link_to "javascript:void(0)", class: "main__tabs-tab btn active-1" do
+        .border-1.line-up-1
+        %p.tab-title
+          報告書一覧
+    .link-tab
+      =link_to "javascript:void(0)", class: "main__tabs-tab btn" do
+        .border-1.line-down-1
+        %p.tab-title
+          生徒一覧
+      -# わざと全角スペースを使用しています
+      .main__top__search.result-up-1
+        %span.pink ピンク：塾長確認「済」
+        　　
+        %span.yellow イエロー：塾長確認「要修正」
+        　　　　　　　　　　
+        全報告書数:#{@result}件
+      .main__top__search.result-down-1
+        %span.skyblue ブルー ：受講中
+        　　　　　　
+        全生徒数:#{@result_student}件
+  %table.main-table.content-1.show-1
+    %thead
+      %tr
+        %th.th-principal 
+          塾長
+          %br 確認
+        %th.th-date  作成日
+        %th.th-title 主な内容
+        %th.th-subject 教科
+        %th.th-teacher 先生
+        %th.th-student 生徒名
+        %th.th-grade 学年
+        %th.th-show 詳細
+        
+    - @reports.each do |report|
+      %tr
+        %td.td-principal
+          = report.principal_i18n
+        %td.td-date 
+          = report.day
+        %td.td-title 
+          = report.title
+        %td.td-subject 
+          = report.subject_i18n
+        %td.td-teacher
+          = report.user.name 
+        %td.td-student  
+          = report.student.name
+        %td.td-grade  
+          = report.student.grade_i18n
+        %td.td-show
+          = link_to "詳細", report_path(report), class: "show-btn" 
+        
+  %table.main-student-table.content-1.hide-1
+    %thead
+      %tr
+        %th.th-date  登録日
+        %th.th-student-name 生徒名
+        %th.th-grade 学年
+        %th.th-english 英語
+        %th.th-math 数学
+        %th.th-japanese 国語
+        %th.th-science 理科
+        %th.th-social_studies 社会
+        %th.th-show 編集/一覧
+    - @students.each do |student|
+      %tr
+        %td.td-date
+          = student.created_at.strftime('%Y-%m-%d')
+        %td.td-student-name
+          = student.name
+        %td.td-grade 
+          = student.grade_i18n
+        %td.td-english
+          = student.english_i18n
+        %td.td-math
+          = student.math_i18n
+        %td.td-japanese 
+          = student.japanese_i18n
+        %td.td-science  
+          = student.science_i18n
+        %td.td-social_studies
+          = student.social_studies_i18n
+        %td.td-show
+          = link_to "編集/一覧", student_path(student), class: "sign-in-btn" 
+        -# %td
+        -#   %input{:type => "checkbox"}/

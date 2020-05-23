@@ -1,0 +1,16 @@
+.main
+  検索結果
+  %table
+    - @reports.each do |report|
+      %tr 
+        %td  
+          = report.day
+        %td  
+          = report.title
+        %td  
+          = report.subject_i18n
+        %td
+          = report.user.name 
+        %td  
+          = report.student.name
+  = link_to 'Top', root_path
