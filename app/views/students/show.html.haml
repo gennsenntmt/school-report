@@ -1,0 +1,65 @@
+.editmain
+  .editmain__top
+    .editmain__top__text
+      = "生徒:'#{@student.name}'さんの報告書一覧から検索"
+    %input#input-text{name: "title", placeholder:"半角スペース 複数条件検索可 例)田中 一郎", type: "text", value: ""}
+      .editmain__top__search
+        = "'#{@student.name}'さんの報告書件数:#{@result}件"
+.main__body
+  .main__body__student 
+    %h2.main__body__student__edit 生徒編集
+    = form_with model: @student, local: true do |s|
+      .student-editname-field
+        名前
+      = s.text_field :name, class: "student-first_name", placeholder: "例)田中太郎",class: "student-editname-field__fullname"
+      .editgrade-field
+        = s.label "学年", class:"grade-field__grade"
+        = s.select :grade, Student.grades.keys.map {|k| [I18n.t("enums.student.grade.#{k}"), k]},
+          {}, class: "editgrade_class"
+      .editsubject-title 受講科目
+      .editsubject-field
+        = s.check_box :english,{}, "english_on", "english_off"
+        英語
+      .editsubject-field
+        = s.check_box :math,{}, "math_on", "math_off"
+        数学
+      .editsubject-field
+        = s.check_box :japanese,{}, "japanese_on", "japanese_off"
+        国語
+      .editsubject-field
+        = s.check_box :science,{}, "science_on", "science_off"
+        理科
+      .editsubject-field
+        = s.check_box :social_studies,{}, "social_studies_on", "social_studies_off"
+        社会
+      #student-regist
+        = s.submit "編集", class:"editstudent-regist"
+  %table.main-table
+    %thead
+      %tr
+        %th.th-principal 塾長確認
+        %th 作成日
+        %th 主な内容
+        %th 教科
+        %th 先生
+        %th 生徒名
+        %th 学年
+        %th 詳細
+    - @reports.each do |report|
+      %tr
+        %td.td-principal
+          = report.principal_i18n
+        %td  
+          = report.day
+        %td 
+          = report.title
+        %td  
+          = report.subject_i18n
+        %td
+          = report.user.name 
+        %td  
+          = report.student.name
+        %td  
+          = report.student.grade_i18n
+        %td
+          = link_to "詳細", report_path(report), class: "sign-in-btn" 

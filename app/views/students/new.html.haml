@@ -1,0 +1,28 @@
+.student-registration-container 
+  %h2.student-information 生徒情報
+  = form_with model: @student, local: true do |s|
+    .student-name-field
+      名前
+      = s.text_field :name, class: "student-first_name", placeholder: "例)田中太郎",class: "student-name-field__fullname"
+    .grade-field
+      = s.label "学年", class:"grade-field__grade"
+      = s.select :grade, Student.grades.keys.map {|k| [I18n.t("enums.student.grade.#{k}"), k]},
+        {}, class: "grade_class"
+    .subject-title 受講科目(見込可)
+    .subject-field
+      = s.check_box :english,{}, "english_on", "english_off"
+      英語
+    .subject-field
+      = s.check_box :math,{}, "math_on", "math_off"
+      数学
+    .subject-field
+      = s.check_box :japanese,{}, "japanese_on", "japanese_off"
+      国語
+    .subject-field
+      = s.check_box :science,{}, "science_on", "science_off"
+      理科
+    .subject-field
+      = s.check_box :social_studies,{}, "social_studies_on", "social_studies_off"
+      社会
+    #student-regist
+      = s.submit "登録", class:"student-regist"
